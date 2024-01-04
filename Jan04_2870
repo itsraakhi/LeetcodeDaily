@@ -1,0 +1,36 @@
+// same as 2244
+
+class Solution {
+public:
+    int minOperations(vector<int>& nums) 
+    {   
+        int n = nums.size();
+        int cnt = 0;
+
+        // not a dvisibility problem, rather a 2x+3y type problem
+
+        unordered_map<int, int> mp;
+        for(auto val : nums)
+        {
+            mp[val]++;
+        }  
+
+        for(auto pr : mp)
+        {
+            int val = pr.second;
+            
+            if(val == 1) return -1;
+            // kyuki agar 1 hai value toh its not subtracted by 2 or 3
+
+            cnt += val/3;
+            if(val % 3) cnt++; 
+            // if(val % 3 == 0) no need to add any cnt, cause number is totally subtracting
+            // if(val % 3 == 2) cnt++, cause one 2 is needed to get number to subtract totally
+            // if(val % 3 == 1) cnt++, cause now we leave one 3, and then 3 + 1 (val % 3)
+            // get a total of 4, which will be 2, subtracted twice.
+            // so now, {(val-3)/ 3} = k-1 & {4/2} = 2 => (k-1+2) = k+1, hence cnt++ will be same
+        }
+
+        return cnt;
+    }
+};
