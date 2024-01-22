@@ -1,0 +1,73 @@
+// method 1
+
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums)
+    {
+        int n = nums.size();
+        int repeat, missing;
+        int sum=0;
+
+        for(int i=0; i<n; i++)
+        {
+            int val = abs(nums[i]);
+            if(nums[val-1] < 0) repeat = abs(nums[i]);
+            else nums[val-1] *= -1;
+
+            sum += i+1 - abs(nums[i]);
+        }
+        
+        return {repeat, repeat+sum};
+    }
+};
+
+// method 2
+
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums)
+    {
+        int n = nums.size();
+        int repeat, missing;
+        int xor1 = 0;
+
+        for(int i=0; i<n; i++)
+        {
+            xor1 ^= (i+1) ^ nums[i];
+        }
+        for(int i=0; i<n; i++)
+        {
+            int val = abs(nums[i]);
+            if(nums[val-1] < 0) repeat = abs(nums[i]);
+            else nums[val-1] *= -1;
+        }
+        missing = xor1 ^ repeat;
+
+        return {repeat, missing};
+    }
+};
+
+// method 3
+
+class Solution {
+public:
+    vector<int> findErrorNums(vector<int>& nums)
+    {
+        int n = nums.size();
+        int repeat, missing;
+        int xor1 = 0;
+        sort(nums.begin(), nums.end());
+
+        for(int i=0; i<n; i++)
+        {
+            xor1 ^= (i+1) ^ nums[i];
+        }
+        for(int i=0; i<n-1; i++)
+        {
+            if(nums[i] == nums[i+1]) repeat = nums[i];
+        }
+        missing = xor1 ^ repeat;
+
+        return {repeat, missing};
+    }
+};
